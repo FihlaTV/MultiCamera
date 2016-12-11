@@ -3,6 +3,7 @@ package com.st.android.device.camera;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.TextureView;
 
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class CameraSourcePreview extends TextureView implements TextureView.Surf
     }
 
     private void startIfReady() {
-        if (mCameraSource.isStartePreview() == false && mSurfaceAvailable) {
+        if (mCameraSource != null && mCameraSource.isStartePreview() == false && mSurfaceAvailable) {
             mCameraSource.start(getSurfaceTexture());
         }
     }

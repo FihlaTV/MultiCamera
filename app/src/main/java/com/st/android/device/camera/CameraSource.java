@@ -18,8 +18,8 @@ import java.util.List;
 public class CameraSource {
     private static final String TAG = CameraSource.class.getSimpleName();
 
-    public static final int CAMERA_FACING_BACK = 0;
-    public static final int CAMERA_FACING_FRONT = 1;
+    public static final int CAMERA_FACING_BACK = CameraInfo.CAMERA_FACING_BACK;
+    public static final int CAMERA_FACING_FRONT = CameraInfo.CAMERA_FACING_FRONT;
 
     private Context mContext;
     private final Object mMutex;
