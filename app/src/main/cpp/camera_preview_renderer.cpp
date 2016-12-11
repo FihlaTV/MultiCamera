@@ -4,7 +4,7 @@
 
 #include <jni.h>
 #include <string>
-#include <stdio.h>
+#include "logger.h"
 
 extern "C"
 void
@@ -14,4 +14,6 @@ Java_com_st_android_device_camera_gl_ImageProcessor_test(
 
     std::string hello = "Hello from C++";
     printf("%s", hello.c_str());
+
+    LOGD("hello");
 }
