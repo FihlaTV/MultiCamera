@@ -47,6 +47,7 @@ public class GLCameraRenderer implements GLSurfaceView.Renderer {
 
         // Set the background frame color
         GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        ImageProcessor.test();
     }
 
     @Override

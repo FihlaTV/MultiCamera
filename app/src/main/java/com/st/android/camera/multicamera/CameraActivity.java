@@ -38,7 +38,6 @@ public class CameraActivity extends AppCompatActivity {
 
         if (PackageManager.PERMISSION_GRANTED == permissionCheck) {
             initCamera();
-
             return;
         }
 
@@ -52,7 +51,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void initCamera() {
-        Log.d(TAG, "initCamera");
+        Log.i(TAG, "initCamera");
 
         CameraSource cameraSource = new CameraSource.Builder(this)
                 .setCameraId(CameraSource.CAMERA_FACING_BACK)
