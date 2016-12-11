@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.st.android.device.camera.CameraSource;
 import com.st.android.device.camera.CameraSourcePreview;
+import com.st.android.device.camera.gl.GLCameraPreview;
 
 import java.io.IOException;
 
@@ -23,6 +24,7 @@ public class CameraActivity extends AppCompatActivity {
     private static final String TAG = CameraActivity.class.getSimpleName();
 
     @BindView(R.id.camera_preview) protected CameraSourcePreview mCameraPreview;
+    @BindView(R.id.gl_camera_preview) protected GLCameraPreview mGLView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class CameraActivity extends AppCompatActivity {
 
         CameraSource cameraSource = new CameraSource.Builder(this)
                 .setCameraId(CameraSource.CAMERA_FACING_BACK)
+                .setPreviewHandler(mGLView.getPreviewHandler())
                 .setRequestedPreviewSize(640, 480)
                 .build();
 
