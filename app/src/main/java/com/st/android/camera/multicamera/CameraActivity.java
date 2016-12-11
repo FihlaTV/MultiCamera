@@ -38,6 +38,7 @@ public class CameraActivity extends AppCompatActivity {
 
         if (PackageManager.PERMISSION_GRANTED == permissionCheck) {
             initCamera();
+
             return;
         }
 
