@@ -37,16 +37,6 @@ public class CameraSource {
     private CameraPreviewHandler mPreviewProcessor;
     private boolean mIsStartPreview = false;
 
-    public void release() {
-        synchronized(mMutex) {
-            stop();
-
-            if (mPreviewProcessor != null) {
-                mPreviewProcessor.release();
-            }
-        }
-    }
-
     public CameraSource start(final SurfaceHolder surfaceHolder) {
         if (mCamera != null) {
             return this;

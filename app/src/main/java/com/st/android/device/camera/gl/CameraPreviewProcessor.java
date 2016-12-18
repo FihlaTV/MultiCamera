@@ -10,31 +10,21 @@ import com.st.android.device.camera.PreviewProcessor;
  */
 
 public class CameraPreviewProcessor extends PreviewProcessor {
+    private byte[] mPreviewData;
+
     public CameraPreviewProcessor() {
     }
 
     @Override
-    public void start() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    public void setImageMap(ImageMap buffer) {
-
-    }
-
-    @Override
-    public void addFrame(byte[] frame, Camera camera) {
-
+    public void processor(byte[] data, Camera camera) {
+        mPreviewData = data;
+        run();
     }
 
     @Override
     public void run() {
-
+        if (mProcessListener != null) {
+            mProcessListener.onCompleted(mPreviewData);
+        }
     }
 }

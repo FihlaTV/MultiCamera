@@ -11,21 +11,23 @@ import com.st.android.device.camera.CameraPreviewHandler;
  */
 public class GLCameraPreview extends GLSurfaceView {
     private GLCameraRenderer mRenderer;
-    private PreviewHandler mHandler;
+    private CameraPreviewHandler mHandler;
 
     public GLCameraPreview(Context context) {
         super(context);
-        init();
+        initOpenGL();
 
-        mHandler = new PreviewHandler(new CameraPreviewProcessor());
+        mHandler = new CameraPreviewHandler(new CameraPreviewProcessor());
     }
 
     public GLCameraPreview(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        initOpenGL();
+
+        mHandler = new CameraPreviewHandler(new CameraPreviewProcessor());
     }
 
-    private void init() {
+    private void initOpenGL() {
         // Create an OpenGL ES 2.0 context.
         setEGLContextClientVersion(2);
 

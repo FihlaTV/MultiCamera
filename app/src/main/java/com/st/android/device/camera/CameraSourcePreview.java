@@ -42,7 +42,7 @@ public class CameraSourcePreview extends TextureView implements TextureView.Surf
 
     public void release() {
         if (mCameraSource != null) {
-            mCameraSource.release();
+            mCameraSource.stop();
             mCameraSource = null;
         }
     }

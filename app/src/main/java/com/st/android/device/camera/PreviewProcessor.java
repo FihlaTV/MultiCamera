@@ -12,10 +12,7 @@ public abstract class PreviewProcessor implements Runnable {
     protected int mPreviewHeight;
     protected int mFrameRotation;
 
-    public abstract void start();
-    public abstract void stop();
-//    public abstract void resume();
-//    public abstract void pause();
+    protected ProcessListener mProcessListener;
 
     public void setPreviewSize(int width, int height) {
         synchronized (mMutex) {
@@ -30,7 +27,14 @@ public abstract class PreviewProcessor implements Runnable {
         }
     }
 
-    public abstract void setImageMap(ImageMap buffer);
+    public void setListener(ProcessListener listener) {
+        mProcessListener = listener;
+    }
 
-    public abstract void addFrame(byte[] frame, Camera camera);
+    public abstract void processor(byte[] data, Camera camera);
+
+
+    public static interface ProcessListener {
+        public void onCompleted(byte[] data);
+    }
 }

@@ -58,7 +58,8 @@ public class CameraActivity extends AppCompatActivity {
         CameraSource cameraSource = new CameraSource.Builder(this)
                 .setCameraId(CameraSource.CAMERA_FACING_BACK)
                 .setPreviewHandler(mGLView.getPreviewHandler())
-                .setRequestedPreviewSize(640, 480)
+                .setRequestedPreviewSize(800, 600)
+                .setRequestedFps(30f)
                 .build();
 
         try {
