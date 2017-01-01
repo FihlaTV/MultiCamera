@@ -15,5 +15,6 @@ public class CameraPreviewProcessor extends PreviewProcessor {
 
     @Override
     public void processor(byte[] data) {
+        ImageProcessor.setPreviewImage(data, mPreviewWidth, mPreviewHeight);
     }
 }
