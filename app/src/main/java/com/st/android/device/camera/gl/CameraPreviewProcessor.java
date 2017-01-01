@@ -10,21 +10,10 @@ import com.st.android.device.camera.PreviewProcessor;
  */
 
 public class CameraPreviewProcessor extends PreviewProcessor {
-    private byte[] mPreviewData;
-
     public CameraPreviewProcessor() {
     }
 
     @Override
-    public void processor(byte[] data, Camera camera) {
-        mPreviewData = data;
-        run();
-    }
-
-    @Override
-    public void run() {
-        if (mProcessListener != null) {
-            mProcessListener.onCompleted(mPreviewData);
-        }
+    public void processor(byte[] data) {
     }
 }

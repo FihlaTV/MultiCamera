@@ -10,11 +10,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.SynchronousQueue;
 
 import static junit.framework.Assert.assertNotNull;
 
-public class CameraPreviewHandler implements Camera.PreviewCallback, PreviewProcessor.ProcessListener {
+public class CameraPreviewHandler implements Camera.PreviewCallback {
     private static final String TAG = CameraPreviewHandler.class.getSimpleName();
 
     protected final PreviewProcessor mPreviewProcessor;
@@ -23,13 +24,12 @@ public class CameraPreviewHandler implements Camera.PreviewCallback, PreviewProc
     protected Size mPreviewSize;
 
     protected ConcurrentHashMap<byte[], ByteBuffer> mImageMap = new ConcurrentHashMap<>();
-    protected Thread mPreviewThread;
+    protected PreviewThread mPreviewThread;
 
     public CameraPreviewHandler(PreviewProcessor processor) {
         assertNotNull(processor);
 
         mPreviewProcessor = processor;
-        mPreviewProcessor.setListener(this);
     }
 
     public synchronized void start(Camera camera, Size previewSize, int rotation) {
@@ -83,26 +83,13 @@ public class CameraPreviewHandler implements Camera.PreviewCallback, PreviewProc
     public void onPreviewFrame(byte[] data, Camera camera) {
         Log.d(TAG, "PreviewHandler >>> onPreviewFrame()");
 
-//        synchronized (mPreviewThread) {
-//            if (mPreviewThread == null) {
-//                return;
-//            }
-//
-//            mPreviewThread.notify();
-//        }
+        synchronized (mPreviewThread) {
+            if (mPreviewThread == null) {
+                return;
+            }
 
-        mPreviewProcessor.processor(data, camera);
-    }
-
-    @Override
-    public void onCompleted(byte[] data) {
-        Log.i(TAG, "onCompleted");
-
-        if (mPreviewThread == null) {
-            return;
+            mPreviewThread.put(data);
         }
-
-        mCamera.addCallbackBuffer(data);
     }
 
     private ByteBuffer allocateMemory(Size size) {
@@ -114,11 +101,17 @@ public class CameraPreviewHandler implements Camera.PreviewCallback, PreviewProc
     }
 
     private final class PreviewThread extends Thread {
-        private final Runnable mTarget;
+        private final PreviewProcessor mPreviewProcessor;
+        private ConcurrentLinkedQueue<byte[]> mImageQueue = new ConcurrentLinkedQueue<>();
 
-        public PreviewThread(Runnable target) {
-            assertNotNull(target);
-            mTarget = target;
+        public PreviewThread(PreviewProcessor processor) {
+            assertNotNull(processor);
+            mPreviewProcessor = processor;
+        }
+
+        public void put(byte[] data) {
+            mImageQueue.add(data);
+            notify();
         }
 
         @Override
@@ -127,12 +120,20 @@ public class CameraPreviewHandler implements Camera.PreviewCallback, PreviewProc
                 try {
                     Log.i(TAG, "PreviewThread running...");
                     synchronized (this) {
-                        if (getState() != State.WAITING) { //by find bug
+                        if (getState() != State.WAITING) {
                             wait();
                         }
                     }
 
-                    mTarget.run();
+                    while (mImageQueue.isEmpty() == false) {
+                        byte[] data = mImageQueue.poll();
+
+                        Log.i(TAG, "image processor");
+                        mPreviewProcessor.processor(data);
+                        mCamera.addCallbackBuffer(data);
+
+                    }
+
                 } catch (InterruptedException e) {
                     Log.i(TAG, "PreviewThread >> interrupted");
                     break;
