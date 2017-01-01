@@ -5,14 +5,18 @@
 #include <jni.h>
 #include <string>
 #include "logger.h"
-#include "yuv2rgb.neon.h"
+#include "image/yuv2rgb.neon.h"
+#include "ImageProcessorEvents.h"
 
 #define TAG 	"native_renderer"
 #define NELEM(x) ((int)(sizeof(x)/sizeof((x)[0])))
 
+JavaVM 	*g_VM = NULL;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 void test(JNIEnv *env, jobject /* this */) {
 
     std::string hello = "Hello from C++";
@@ -23,7 +27,10 @@ void test(JNIEnv *env, jobject /* this */) {
 
 void setPreviewImage(JNIEnv* env, jobject obj, jbyteArray yuvImage, jint imgWidth, jint imgHeight)
 {
-    LOGD(TAG, "nSetCameraPreviewData start");
+    LOGD(TAG, "setPreviewImage");
+
+    env->GetJavaVM(&g_VM);
+    ImageProcessorEvents::saveBitmap();
 
 //    size_t		len = env->GetArrayLength(yuvImage);
 //    jbyte 		*nativeBytes = env->GetByteArrayElements(yuvImage, 0);
