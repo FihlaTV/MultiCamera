@@ -22,7 +22,7 @@
 extern "C" {
 #endif
 
-#if defined(__ARM_NEON__)
+//#if defined(__ARM_NEON__)
 //#error __ARM_NEON__ is defined
   void _yuv420_2_rgb8888_neon
   (
@@ -49,7 +49,7 @@ extern "C" {
     int uv_pitch,
     int rgb_pitch
   );
-#endif
+//#endif
 
 #ifdef __cplusplus
 }

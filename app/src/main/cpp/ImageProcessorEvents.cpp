@@ -10,7 +10,7 @@
 
 extern  JavaVM 	*g_VM;
 
-void ImageProcessorEvents::saveBitmap()
+void ImageProcessorEvents::saveBitmap(int width, int height)
 {
 	int status;
 	JNIEnv *env;
@@ -34,10 +34,10 @@ void ImageProcessorEvents::saveBitmap()
 	}
 
 	/* Find the callBack method ID */
-	jmethodID method = env->GetStaticMethodID(imageProcessClz, "saveBitmap", "()V");
+	jmethodID method = env->GetStaticMethodID(imageProcessClz, "saveBitmap", "(II)V");
 	if (method == NULL) {
 		LOGE(TAG, "callback_handler: failed to get method ID");
 		return;
 	}
-	env->CallStaticVoidMethod(imageProcessClz, method);
+	env->CallStaticVoidMethod(imageProcessClz, method, width, height);
 }

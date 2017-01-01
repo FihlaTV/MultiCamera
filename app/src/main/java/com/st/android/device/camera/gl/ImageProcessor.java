@@ -12,7 +12,7 @@ public class ImageProcessor {
     public static native void test();
     public static native void setPreviewImage(byte[] data, int width, int height);
 
-    private static void saveBitmap() {
+    private static void saveBitmap(int width, int heiht) {
         Log.d(TAG, "saveBitmap");
     }
 

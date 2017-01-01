@@ -8,7 +8,6 @@
 //
 //
 #ifdef __ARM_NEON__
-//#error __ARM_NEON__ is defined
  /* Initial ARM Neon implementation of core YUV2RGB functions. */
         
     .text

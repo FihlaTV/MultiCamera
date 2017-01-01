@@ -6,7 +6,7 @@
  */
 class ImageProcessorEvents {
 public:
-	static void saveBitmap();
+	static void saveBitmap(int width, int height);
 };
 
 #endif
